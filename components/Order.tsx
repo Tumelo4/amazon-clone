@@ -29,7 +29,7 @@ const Order = ({ id, amount, images, timestamp, items }: Orderprops) => {
               <p className=' absolute top-2 right-2 w-40 lg:w-72 truncate text-xs whitespace-nowrap'>ORDER &#35; {id}</p>
           </div>
           <div className=' p-5 sm:p-10 '>
-                  <div className='flex space-x-6 overflow-x-auto'>
+                  <div className='flex space-x-6 overflow-x-auto scrollbar-hide'>
                       {
                           images?.map((image, index) => (
                               <Image

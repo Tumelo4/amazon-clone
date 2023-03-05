@@ -64,30 +64,31 @@ const Oders = ({orders, session}: OrdersProps) => {
       {
         session ? (
           <div className=' w-full'>
-            <div className='my-2 flex capitalize text-[13px] font-medium gap-[6px] items-center'>
+            <div className='my-2 flex capitalize text-[13px] font-medium gap-[6px] items-center px-2 lg:px-0'>
               <p className=' cursor-pointer  text-blue-500 hover:text-orange-500 hover:underline hover:underline-offset-1 duration-150'>Your Account</p>
               <NavigateNextIcon className=' text-[11px] -mb-[2px]' />
               <p className='text-orange-400'>your orders</p> 
             </div>
             
-            <div className='flex justify-between items-center mt-5'>
+            <div className='flex flex-col sm:flex-row gap-2 justify-between items-center mt-5 px-2 lg:px-0'>
               <p className=' capitalize font-medium text-3xl'>Your Orders</p>
-              <div className='flex items-center space-x-2'>
-                    <div className='flex items-center text-sm p-[4px] border-gray-500 rounded-sm border-[1px]'>
+              <div className='w-full flex sm:w-auto  px-2 sm:px-0 items-center space-x-2 max-w-lg sm:max-w-none m-auto'>
+                    <div className='w-full flex sm:w-auto items-center text-sm p-[4px] border-gray-500 rounded-sm border-[1px]'>
                         {/* search icon */}
                         <GoSearch className='mx-2'/>
                         <input type="text" placeholder='search all orders' className='w-[13rem] md:w-[20rem] focus:outline-none'/>
                     </div> 
-                    <button className=' capitalize font-semibold bg-[#353133] hover:bg-[#0f0d0e] text-sm py-[5px] px-2 text-white rounded-2xl duration-200 ease-in-out'>search orders</button>
+                    <button className='hidden sm:block capitalize font-semibold bg-[#353133] hover:bg-[#0f0d0e] text-sm py-[5px] px-2 text-white rounded-2xl duration-200 ease-in-out'>search orders</button>
               </div>
+
             </div>
-            <div className='flex items-center gap-8 border-b-[1px] border-b-[#ddd6da] my-5 px-5'>
+            <div className='flex items-center gap-8 border-b-[1px] border-b-[#ddd6da] my-5 px-5 overflow-x-auto scrollbar-hide'>
                 <p className='py-2 text-[13px] capitalize cursor-text font-bold text-black border-b-2 border-b-orange-500'>orders</p>
-                <p className='order_links'>buy again</p>
-                <p className='order_links'>not yet shipped</p>
-                <p className='order_links'>digital orders</p>
-                <p className='order_links'>local store orders</p>
-                <p className='order_links'>cancelled orders</p>
+                <p className='order_links '>buy again</p>
+                <p className='order_links '>not yet shipped</p>
+                <p className='order_links '>digital orders</p>
+                <p className='order_links '>local store orders</p>
+                <p className='order_links '>cancelled orders</p>
             </div>
             {
               orders && orders.length === 0 
