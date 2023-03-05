@@ -76,7 +76,7 @@ const Oders = ({orders, session}: OrdersProps) => {
                     <div className='w-full flex sm:w-auto items-center text-sm p-[4px] border-gray-500 rounded-sm border-[1px]'>
                         {/* search icon */}
                         <GoSearch className='mx-2'/>
-                        <input type="text" placeholder='search all orders' className='w-[13rem] md:w-[20rem] focus:outline-none'/>
+                        <input type="text" placeholder='search all orders' className='w-full sm:w-[13rem] md:w-[20rem] focus:outline-none'/>
                     </div> 
                     <button className='hidden sm:block capitalize font-semibold bg-[#353133] hover:bg-[#0f0d0e] text-sm py-[5px] px-2 text-white rounded-2xl duration-200 ease-in-out'>search orders</button>
               </div>
