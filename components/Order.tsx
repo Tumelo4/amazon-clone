@@ -31,8 +31,9 @@ const Order = ({ id, amount, images, timestamp, items }: Orderprops) => {
           <div className=' p-5 sm:p-10 '>
                   <div className='flex space-x-6 overflow-x-auto'>
                       {
-                          images?.map(image => (
+                          images?.map((image, index) => (
                               <Image
+                                  key={index}
                                   src={image}
                                   alt='Image'
                                   width={200}

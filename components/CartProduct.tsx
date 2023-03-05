@@ -1,6 +1,6 @@
 import { itemProps } from '@/redux/cartslice'
 import Image from 'next/image'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { AiOutlinePlus, AiOutlineMinus, AiFillStar } from 'react-icons/ai'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { useDispatch } from 'react-redux'
@@ -10,22 +10,22 @@ import { formatCurrency } from '@/utilities/formatCurrency'
 
 const CartProduct = ({ item, qty}: itemProps) => {
     const { title, image, price, id , rating} = item
-    const useAppDispatch = useDispatch()
+    const dispatch = useDispatch()
 
-    const handleIncrement = () => {
-        useAppDispatch(increment(id));
-    }
+    const handleIncrement = useCallback(() => {
+        dispatch(increment(id));
+    }, [dispatch, id])
 
-    const handleDecrement = () => {
-        useAppDispatch(decrement(id));
-    }
+    const handleDecrement = useCallback(() => {
+        dispatch(decrement(id));
+    }, [dispatch, id])
 
-    const handleRemoveFromCart = () => {
-        useAppDispatch(removeFromCart(id));
-    }
+    const handleRemoveFromCart = useCallback(() => {
+        dispatch(removeFromCart(id));
+    }, [dispatch, id])
 
-    const priceStyle = useMemo(() => formatCurrency(price), [price])
-    const rate = useMemo(() => Math.ceil(rating.rate), [rating]);
+    const priceStyle:string = useMemo(() => formatCurrency(price), [price])
+    const rate:number = useMemo(() => Math.ceil(rating?.rate ?? 0), [rating]);
 
   return (
       <div className=' mt-8 p-2 flex flex-col sm:flex-row w-full space-x-5 border-b-[1px] border-b-gray-300'>
@@ -59,7 +59,7 @@ const CartProduct = ({ item, qty}: itemProps) => {
               </div>
               <div className='flex mb-4'>
                   {
-                      Array(rate).fill().map((_, index) => (
+                      Array(rate).fill(null).map((_, index) => (
                           <AiFillStar key={index} className=' h-5 text-yellow-400' />
                       ))
                   }

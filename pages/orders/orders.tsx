@@ -111,7 +111,7 @@ const Oders = ({orders, session}: OrdersProps) => {
                         </button>
                     </div>
                     <div className=' text-sm font-normal my-8 mx-2 flex justify-center items-center space-x-2'>
-                        <p>Looks like you haven't placed an order in the last 3 months&#46;</p>
+                        <p>Looks like you haven&#39;t placed an order in the last 3 months&#46;</p>
                         <p className='text-blue-500 cursor-pointer hover:text-orange-500 hover:underline hover:underline-offset-1'>View orders in 2023</p>
                     </div>
                   </div>

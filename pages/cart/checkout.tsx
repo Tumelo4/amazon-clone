@@ -71,7 +71,7 @@ const Checkout = ({session}: CheckoutProps) => {
                                             Your Shopping Cart lives to serve&#46; Give it purpose - fill it with groceries&#44; clothing&#44; houseold supplies&#44; electronics&#44; and more&#46;
                                         </p>
                                         <p className=' text-[13px]'>
-                                            Continue shopping on the <span className=' cart_hover_underline'>Amazon.com homepage&#44;</span> learn about <span className='cart_hover_underline'>today's deals&#44;</span> or visit your <span className='cart_hover_underline'>Wish List</span>
+                                            Continue shopping on the <span className=' cart_hover_underline'>Amazon.com homepage&#44;</span> learn about <span className='cart_hover_underline'>today&#39;s deals&#44;</span> or visit your <span className='cart_hover_underline'>Wish List</span>
                                         </p>
                                     </div>
                                     <div className=' bg-white my-4 mt-0 p-5 w-full'>

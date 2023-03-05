@@ -1,21 +1,21 @@
 import { ProductProps } from '@/pages'
 import { formatCurrency } from '@/utilities/formatCurrency' // lightweight solution or you can use react-currency-formatter
 import Image from 'next/image'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import Prime from '@/public/Prime.png'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '@/redux/cartslice'
 
 const Product = (item: ProductProps) => {
-    const useAppDispatch = useDispatch()
+    const dispatch = useDispatch()
     const { id, title, price, description, category, image, rating } = item
-    const rate = useMemo(() => Math.ceil(rating.rate), [rating]);
+    const rate = useMemo(() => Math.ceil(rating?.rate ?? 0), [rating]);
     const priceStyle = useMemo(() => formatCurrency(price), [price])
     
-    const handleAddToCart = () => {
-        useAppDispatch(addToCart({item, qty: 1}))
-    }
+    const handleAddToCart = useCallback(() => {
+        dispatch(addToCart({item, qty: 1}))
+    }, [dispatch, item])
     
   return (
     <div className=' relative flex flex-col m-5 bg-white z-30 p-10'>
@@ -39,7 +39,7 @@ const Product = (item: ProductProps) => {
        
         <div className='flex'>
             {
-            Array(rate).fill().map((_, index) => (
+            Array(rate).fill(null).map((_, index) => (
                 <AiFillStar key = {index} className=' h-5 text-yellow-400' />
             ))
             }
