@@ -148,6 +148,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const email = session.user?.email ?? '';
+  // For development:
+  // Go in Cloud Firestore Database -> Rules ->
+  // Change allow read, write: if false; to true;
+  // Because of firestore: PERMISSION_DENIED: Missing or insufficient permissions when you're in development mode
+  // Note: It's quick solution for development purpose only because it will turns off all the security. So, it's not recommended for production.
+  // For production:
+  // If authenticated from firebase: Change allow read, write: if false; to request.auth != null;
   const userOrdersRef = collection(db, 'users', email, 'orders');
   const q = query(userOrdersRef, where('timestamp', '>', new Date(0)), orderBy('timestamp', 'desc'));
   
