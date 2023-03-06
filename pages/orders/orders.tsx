@@ -94,7 +94,7 @@ const Oders = ({orders, session}: OrdersProps) => {
               orders && orders.length === 0 
                 ? (
                   <div className=' w-full'>
-                    <div className=' text-[13px] flex items-center gap-2 px-2 sm:px-0'>
+                    <div className=' text-[13px] flex items-center gap-2 px-2'>
                         {/* Number of items ordered */}
                         <div className='flex items-center space-x-1'>
                           <p className=' font-bold'>
