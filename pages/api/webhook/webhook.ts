@@ -1,4 +1,3 @@
-import { buffer } from 'micro' // It provides small functions that help dealing with requests
 import type { NextApiRequest, NextApiResponse } from 'next'
 // import Stripe from "stripe";
 import * as admin from 'firebase-admin'
@@ -66,8 +65,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     
   if (req.method === "POST") {
       
-    const buf = await buffer(req);
-    const payload = buf.toString();
     // Get the signature sent by Stripe
     const sig = req.headers["stripe-signature"];
 
@@ -77,7 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (webhook_end_point_secrete.length > 0) {
       // verify that event posted came from stripe
       try {
-        event = stripe.webhooks.constructEvent(payload, sig, webhook_end_point_secrete);
+        event = stripe.webhooks.constructEvent(req.body, sig, webhook_end_point_secrete);
       } catch (err: any) {
         console.log(err)
         res.status(400).send(`Webhook Error: ${err.message}`);
