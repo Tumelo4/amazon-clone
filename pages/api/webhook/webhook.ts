@@ -4,6 +4,7 @@ import { buffer } from 'micro'
 // Add micro-cors
 import Cors from 'micro-cors'
 import * as admin from 'firebase-admin'
+import { ServiceAccount } from 'firebase-admin';
 
 // config used to disable default parsing behavior API routes from Next.js
 // To avoid someone finding out webhook URL and send fake requests
@@ -19,8 +20,7 @@ const cors = Cors({
 })
 
 
-// Only initializeApp once
-const app = !admin.apps.length ? admin.initializeApp({ credential: admin.credential.cert({
+const serviceAccountKey = {
   type: process.env.type || '',
   project_id:  process.env.project_id || '',
   private_key_id:  process.env.private_key_id || '',
@@ -31,7 +31,11 @@ const app = !admin.apps.length ? admin.initializeApp({ credential: admin.credent
   token_uri:  process.env.token_uri || '',
   auth_provider_x509_cert_url:  process.env.auth_provider_x509_cert_url || '',
   client_x509_cert_url:  process.env.client_x509_cert_url || ''
-}) }) : admin.app()
+} as ServiceAccount;
+
+
+// Only initializeApp once
+const app = !admin.apps.length ? admin.initializeApp({ credential: admin.credential.cert(serviceAccountKey) }) : admin.app()
 
 const push_Information_to_firebase_database = async (event: any) => {
 
