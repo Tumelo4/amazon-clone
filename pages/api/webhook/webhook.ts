@@ -5,7 +5,17 @@ import * as admin from 'firebase-admin'
 // import * as serviceAccount from "@/serviceAccountKey.json";
 
 // Secure connection to firebase
-const serviceAccount = require("@/serviceAccountKey.json");
+// const serviceAccount:admin.ServiceAccount = {
+//   project_id:  process.env.project_id || '',
+//   private_key_id:  process.env.private_key_id || '',
+//   private_key:  process.env.private_key || '',
+//   client_email:  process.env.client_email || '',
+//   client_id:  process.env.client_id || '',
+//   auth_uri:  process.env.auth_uri || '',
+//   token_uri:  process.env.token_uri || '',
+//   auth_provider_x509_cert_url:  process.env.auth_provider_x509_cert_url || '',
+//   client_x509_cert_url:  process.env.client_x509_cert_url || ''
+// }
 
 // config used to disable default parsing behavior API routes from Next.js
 // To avoid someone finding out webhook URL and send fake requests
@@ -16,8 +26,23 @@ export const config = {
     },
 };
 
-const push_Information_to_firebase_database = async (session: any) => {
 
+// Only initializeApp once
+const app = !admin.apps.length ? admin.initializeApp({ credential: admin.credential.cert({
+  type: process.env.type || '',
+  project_id:  process.env.project_id || '',
+  private_key_id:  process.env.private_key_id || '',
+  private_key:  process.env.private_key || '',
+  client_email:  process.env.client_email || '',
+  client_id:  process.env.client_id || '',
+  auth_uri:  process.env.auth_uri || '',
+  token_uri:  process.env.token_uri || '',
+  auth_provider_x509_cert_url:  process.env.auth_provider_x509_cert_url || '',
+  client_x509_cert_url:  process.env.client_x509_cert_url || ''
+}) }) : admin.app()
+
+const push_Information_to_firebase_database = async (session: any) => {
+  
   return app
     .firestore()
     .collection('users')
@@ -33,10 +58,6 @@ const push_Information_to_firebase_database = async (session: any) => {
     console.log(`Sucess: Order ${session.id} had been added to the DB`)
   })
 }
-
-// Only initializeApp once
-const app = !admin.apps.length ? admin.initializeApp({ credential: admin.credential.cert(serviceAccount) }) : admin.app()
-
 // Stripe 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const webhook_end_point_secrete = process.env.STRIPE_WEBHOOK_SECRET || '';

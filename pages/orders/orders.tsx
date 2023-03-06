@@ -97,7 +97,7 @@ const Oders = ({orders, session}: OrdersProps) => {
                     <div className=' text-[13px] flex items-center gap-2'>
                         {/* Number of items ordered */}
                         <div className='flex items-center space-x-1'>
-                          <p className=' pl-2 font-bold'>
+                          <p className=' font-bold'>
                               0 orders
                           </p>
                           <p>
@@ -111,7 +111,7 @@ const Oders = ({orders, session}: OrdersProps) => {
                           <MdOutlineArrowDropDown className=' h-5 w-5'/>
                         </button>
                     </div>
-                    <div className=' pl-2 text-sm font-normal my-8 mx-2 flex justify-center items-center space-x-2'>
+                    <div className=' text-sm font-normal my-8 mx-2 flex justify-center items-center space-x-2'>
                         <p>Looks like you haven&#39;t placed an order in the last 3 months&#46;</p>
                         <p className='text-blue-500 cursor-pointer hover:text-orange-500 hover:underline hover:underline-offset-1'>View orders in 2023</p>
                     </div>
