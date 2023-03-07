@@ -19,13 +19,13 @@ const cors = Cors({
   allowMethods: ['POST', 'HEAD'],
 })
 
-// const private_key = process.env.private_key || ''
+const encode_private_key = process.env.private_key || ''
 
 const serviceAccountKey = {
   type: process.env.type || '',
   project_id:  process.env.project_id || '',
   private_key_id:  process.env.private_key_id || '',
-  private_key:  process.env.private_key || '',
+  private_key:  process.env.private_key ? Buffer.from(encode_private_key, 'base64').toString('ascii') : '',
   client_email:  process.env.client_email || '',
   client_id:  process.env.client_id || '',
   auth_uri:  process.env.auth_uri || '',
