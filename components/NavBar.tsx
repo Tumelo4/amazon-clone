@@ -76,7 +76,7 @@ const NavBar = () => {
         <div className=' flex items-center flex-shrink-0 flex-grow sm:flex-grow-0 md:flex-shrink '>
           {/* Drawer for small device */}
           <div className='md:hidden'>
-            <AiOutlineMenu onClick={handle_open_close} className=' h-8 w-8 cursor-pointer text-[#0f0d0e] hover:outline  hover:outline-1 hover:outline-white' />
+            <AiOutlineMenu onClick={handle_open_close} className=' h-8 w-8 cursor-pointer text-gray-100 hover:outline  hover:outline-1 hover:outline-white' />
             <ThemeProvider theme={theme}>
               <Drawer anchor="left" open={isopen} onClose={handle_open_close}>
                 <SmallDevMenu  session={session} handle_sign_in_or_out={handle_sign_in_or_out} handle_open_close={handle_open_close} />
