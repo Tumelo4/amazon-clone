@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '@/public/logo.png'
 import { Menu, Transition } from '@headlessui/react'
 import { GoSearch } from 'react-icons/go'
@@ -11,13 +11,46 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { selectorItems } from '@/redux/cartslice'
+import { Fragment } from 'react'
+import Drawer from '@mui/material/Drawer';
+import SmallDevMenu from './SmallDevMenu'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// Use create theme to remove default background of mui drawer component
+const theme = createTheme({
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
+  },
+});
 
 const NavBar = () => {
 
   const Items = useSelector(selectorItems);
-  const { data: session, status } = useSession()
-  const loading = status === 'loading'
+  const { data: session } = useSession()
+  // usestate from drawer
+  const [isopen, setIsopen] = useState<boolean>(false)
+  const dropDownMenu = [
+    'all departments', 'art & crafs', 'automotive', 'baby', 'beauty & personal care', 'books', 'boys\' fashion',
+    'computers', 'deals', 'digital music', 'electronics', 'girls\' fashion', 'health & houseold', 'industrial & scientific', 'kindle store', 'luggage',
+    'men\'s fashion', 'movies & TV', 'music, cDs & vinyl', 'pet supplies', 'prime video', 'software', 'sports & outdoors', 'tools & home improvement',
+    'toys & games', 'video games', 'women\'s fashion'
+  ]
+
+  const sec_small_dev_menu = [
+    'deals', 'amazon basics', 'best sellers', 'video', 'livestreams',
+    'new releases', 'home', 'books', 'gift cards', 'pc', 'health & household', 'music', 'lists'
+  ]
+
+  const b_NavBar = [
+    'today\' deals', 'customer service', 'registry', 'gift cards', 'sell'
+  ]
+  
 
   const handle_sign_in_or_out = () => {
     if (session)
@@ -29,16 +62,28 @@ const NavBar = () => {
       signIn()
     }
   }
+
+  // handle closing of drawer
+  const handle_open_close = () => {
+    setIsopen(prev => prev === true? false : true)
+  }
+
   return (
     <div className=' pt-2 flex justify-center bg-amazon_blue flex-col w-full'>
       {/* Top NavBar */}
       <div className=' px-3 flex mb-[9px] sm:justify-between items-center border-b-gray-700 border-b border-gray-400  md:border-0'>
         {/* Logo and deliver Location */}
         <div className=' flex items-center flex-shrink-0 flex-grow sm:flex-grow-0 md:flex-shrink '>
-          {/* Logo */}
+          {/* Drawer for small device */}
           <div className='md:hidden'>
-            <AiOutlineMenu className=' h-8 w-8 cursor-pointer text-[#0f0d0e] hover:outline  hover:outline-1 hover:outline-white' />
+            <AiOutlineMenu onClick={handle_open_close} className=' h-8 w-8 cursor-pointer text-[#0f0d0e] hover:outline  hover:outline-1 hover:outline-white' />
+            <ThemeProvider theme={theme}>
+              <Drawer anchor="left" open={isopen} onClose={handle_open_close}>
+                <SmallDevMenu  session={session} handle_sign_in_or_out={handle_sign_in_or_out} handle_open_close={handle_open_close} />
+              </Drawer>
+            </ThemeProvider>
           </div>
+          {/* Logo */}
           <Link href='/'>
             <Image
               src={logo}
@@ -70,6 +115,38 @@ const NavBar = () => {
                   aria-hidden="true"
                 />
               </Menu.Button>
+              
+              {/* Use the `Transition` component. */}
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute z-50 w-auto h-96 overflow-y-auto left-0 -mt-[4px] ml-[2px] border-[1px] border-gray-400 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-2">
+                    {
+                      dropDownMenu.map((infor, index) => (
+                        <Menu.Item key={index}>
+                          {({ active }) => (
+                            <button
+                              
+                              className={`${
+                                active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                              } group flex w-full capitalize whitespace-nowrap items-center px-2 py-2 text-sm`}
+                            >
+                              {infor}
+                            </button>
+                          )}
+                        </Menu.Item>
+                      ))
+                    }
+                  </div>
+                </Menu.Items>
+              </Transition>
             </div>
           </Menu>
 
@@ -132,7 +209,7 @@ const NavBar = () => {
           <Link href='/cart/checkout'>
             <div className=' relative flex items-center p-2 cursor-pointer hover:outline  hover:outline-1 hover:outline-white'>
               <MdOutlineAddShoppingCart className=' h-8 w-8' />
-              <span className='absolute -top-[2px] -right-[2px] sm:right-7'>{ Items.total}</span>
+              <span className='absolute -top-[2px] -right-[2px] sm:right-7 text-orange-500'>{ Items.total}</span>
               <p className='hidden sm:block -mb-3 font-bold text-base'>cart</p>
             </div>
           </Link>
@@ -154,61 +231,15 @@ const NavBar = () => {
             <GoSearch />
           </div>
         </div>
-        {/* SMall device horizontal scrollable  Menu*/}
+        {/* Small device horizontal scrollable  Menu*/}
         <div className='p-1 mt-1 overflow-x-auto scrollbar-hide flex items-center'>
-          <p className='  custom_outline_sm'>
-            deals
-          </p>
-
-          <p className=' custom_outline_sm'>
-            amazon basics
-          </p>
-
-          <p className=' custom_outline_sm'>
-            best sellers
-          </p>
-
-          <p className=' custom_outline_sm '>
-            video
-          </p>
-
-          <p className=' custom_outline_sm '>
-            livestreams
-          </p>
-
-          <p className=' custom_outline_sm '>
-            new releases
-          </p>
-
-          <p className=' custom_outline_sm '>
-            home
-          </p>
-
-          <p className=' custom_outline_sm '>
-            books
-          </p>
-
-          <p className=' custom_outline_sm '>
-            deals
-          </p>
-
-          <p className=' custom_outline_sm'>
-            gift cards
-          </p>
-
-          <p className='  custom_outline_sm'>
-            pc
-          </p>
-
-          <p className='  custom_outline_sm'>
-            health &amp; household
-          </p>
-          <p className='  custom_outline_sm'>
-            music
-          </p>
-          <p className='  custom_outline_sm'>
-            lists
-          </p>
+          {
+            sec_small_dev_menu.map((infor, index) => (
+              <p key={index} className='  custom_outline_sm'>
+                {infor}
+              </p>
+            ))
+          }
         </div>
 
       </div>
@@ -219,21 +250,13 @@ const NavBar = () => {
             <AiOutlineMenu className=' h-5 w-5 ' />
             <p className=' text-[13px] font-semibold'>All</p>
           </div>
-          <p className='  custom_outline_md'>
-            today&#39;s deals
-          </p>
-          <p className='  custom_outline_md'>
-            customer service
-          </p>
-          <p className='  custom_outline_md'>
-            registry 
-          </p>
-          <p className='  custom_outline_md'>
-            gift cards
-          </p>
-          <p className=' custom_outline_md'>
-            sell
-          </p>
+          {
+            b_NavBar.map((infor, index) => (
+              <p key={index} className='  custom_outline_md'>
+                {infor}
+              </p>
+            ))
+          }
         </div>
         <p className=' custom_outline_md p-1 '>
             shop delas in electronic
