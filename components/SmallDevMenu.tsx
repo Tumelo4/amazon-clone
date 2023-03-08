@@ -76,7 +76,7 @@ const SmallDevMenu = ({ session, handle_sign_in_or_out, handle_open_close }: Sma
           {/* Drop down menu */}
 
           <Menu>
-            <Menu.Button className='flex items-center gap-1'>
+            <Menu.Button className='flex items-center gap-1 pb-3'>
               See All
               <MdOutlineArrowDropDown
                 className="ml-2 -mr-1 h-5 w-5 text-[#181616bb]"
